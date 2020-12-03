@@ -5,7 +5,7 @@ import 'dart:io';
 
 main(List<String> args) {
   runApp(MyApp());
-  if (Platform.isAndroid) {
+  if (Platform.isIOS) {
     SystemUiOverlayStyle style = SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: "BiliBili demo",
+      title: "Cyper Multiverse",
       home: MyHome(),
     );
   }
@@ -38,7 +38,8 @@ class MyHome extends StatelessWidget {
     double rpx = MediaQuery.of(context).size.width / 750;
     var content = "aaa";
     return Scaffold(
-      /*appBar: AppBar(
+      appBar: AppBar(
+        backgroundColor: Colors.black.withOpacity(0.8),
         leading: IconButton(
           icon: Icon(
             Icons.keyboard_arrow_left,
@@ -49,10 +50,10 @@ class MyHome extends StatelessWidget {
           },
         ),
         centerTitle: true,
-        title: Text("BiliBili demo"),
+        title: Text("Cyper Multiverse"),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.local_activity_rounded),
+            icon: Icon(Icons.workspaces_filled),
             onPressed: () {
               print("das");
             },
@@ -64,14 +65,171 @@ class MyHome extends StatelessWidget {
             },
           ),
         ],
-      ),*/
-      backgroundColor: Colors.blue,
-      body: StackDemo(),
+      ),
+      // backgroundColor: Colors.black.withOpacity(0.8),
+      body: ItemDemo(),
+    );
+  }
+}
+
+class CardDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 200,
+      child: Card(
+        color: Colors.deepPurple[900].withOpacity(0.7),
+        elevation: 20,
+        shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(40),
+                topLeft: Radius.circular(40))),
+        child: Container(
+            // decoration: BoxDecoration(color: Colors.purple),
+            ),
+      ),
+    );
+  }
+}
+
+class ItemDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(boxShadow: [
+        BoxShadow(
+            blurRadius: 10,
+            color: Colors.black.withOpacity(0.4),
+            offset: Offset(10, 10))
+      ], borderRadius: BorderRadius.circular(20), color: Colors.white),
+      margin: EdgeInsets.all(10),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            child: Image.asset("images/item-img1.jpg"),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Text.rich(
+              TextSpan(children: [
+                TextSpan(
+                    text: "练习一下赛博朋克与日式动漫结合的画风！🎡",
+                    style: TextStyle(fontSize: 18)),
+                TextSpan(
+                    text: "赛博朋克赛高",
+                    style: TextStyle(fontSize: 15, color: Colors.red)),
+                WidgetSpan(
+                  child: Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                  ),
+                ),
+              ]),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  children: <Widget>[
+                    Container(
+                      width: 30,
+                      height: 30,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage("images/avatar.jpg"),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "黑火",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(Icons.favorite),
+                      onPressed: () {},
+                    ),
+                    Container(
+                      child: Text("999"),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ListTileDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.lightBlue[700].withOpacity(0.7),
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 20.0,
+                color: Colors.white54.withOpacity(0.3),
+                offset: Offset(10, 10))
+          ]),
+      padding: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.all(10),
+      child: ListTile(
+        leading: Container(
+            child: Container(
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(20)),
+                child: Container(
+                    child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset("images/avatar.jpg"),
+                )))),
+        title: Text(
+          "平行宇宙",
+          style: TextStyle(
+              color: Colors.yellow[500],
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        ),
+        subtitle: Text(
+          "欢迎来到赛博朋克般的平行宇宙欢迎来到赛博朋克般的平行宇宙欢迎来到赛博朋克般的平行宇宙欢迎来到赛博朋克般的平行宇宙欢迎来到赛博朋克般的平行宇宙欢迎来到赛博朋克般的平行宇宙",
+          style: TextStyle(
+              color: Colors.white,
+              fontStyle: FontStyle.italic,
+              letterSpacing: 2),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 4,
+        ),
+        trailing: Container(
+          child: Container(
+            child: Icon(Icons.grade_outlined),
+          ),
+        ),
+      ),
     );
   }
 }
 
 class StackDemo extends StatelessWidget {
+  // final TextEditingController _controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -80,23 +238,31 @@ class StackDemo extends StatelessWidget {
         children: <Widget>[
           FittedBox(
             fit: BoxFit.cover,
-            child: Image.asset("images/a.png"),
+            child: Image.asset("images/login-bg.png"),
           ),
           Positioned(
-            top: 500,
-            left: 60,
             child: Container(
-              width: 300,
-              child: RaisedButton(
-                child: Text(
-                  "登录",
-                  style: TextStyle(color: Colors.white,fontSize: 20),
-                ),
-                color: Colors.blue,
-                onPressed: () {},
-              ),
+              color: Colors.black.withOpacity(0.3),
             ),
-          )
+          ),
+          Positioned(
+              top: 500,
+              left: 60,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 300,
+                    child: RaisedButton(
+                      child: Text(
+                        "登录",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                      color: Colors.blue,
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ))
         ],
       ),
     );
