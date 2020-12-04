@@ -27,12 +27,69 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: "Cyper Multiverse",
-      home: MyHome(),
+      home: MyHomeState(),
     );
   }
 }
 
-class MyHome extends StatelessWidget {
+class MyHomeState extends StatefulWidget {
+  @override
+  _MyHomeStateState createState() => _MyHomeStateState();
+}
+
+class _MyHomeStateState extends State<MyHomeState>
+    with TickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    double rpx = MediaQuery.of(context).size.width / 750;
+    TabController tabController = TabController(length: 3, vsync: this);
+    var content = "aaa";
+    return Scaffold(
+      appBar: AppBar(
+        bottom: TabBar(
+          controller: tabController,
+          tabs: <Widget>[
+            Text("1"),
+            Text("2"),
+            Text("3"),
+          ],
+        ),
+        backgroundColor: Colors.black.withOpacity(0.8),
+        leading: IconButton(
+          icon: Icon(
+            Icons.keyboard_arrow_left,
+            size: 35,
+          ),
+          onPressed: () {
+            print('tap');
+          },
+        ),
+        centerTitle: true,
+        title: Text("Cyper Multiverse"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.workspaces_filled),
+            onPressed: () {
+              print("das");
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.more_vert_rounded),
+            onPressed: () {
+              print("123");
+            },
+          ),
+        ],
+      ),
+      // backgroundColor: Colors.black.withOpacity(0.8),
+      body: ItemDemo(
+        tabController: tabController,
+      ),
+    );
+  }
+}
+
+/*class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double rpx = MediaQuery.of(context).size.width / 750;
@@ -70,6 +127,22 @@ class MyHome extends StatelessWidget {
       body: ItemDemo(),
     );
   }
+}*/
+
+class FullScreenImage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(
+          child: Hero(
+            tag: 123,
+            child: Image.asset("images/item-img1.jpg"),
+          ),
+        ));
+  }
 }
 
 class CardDemo extends StatelessWidget {
@@ -93,8 +166,19 @@ class CardDemo extends StatelessWidget {
 }
 
 class ItemDemo extends StatelessWidget {
+  const ItemDemo({Key key, @required this.tabController}) : super(key: key);
+  final TabController tabController;
+
   @override
   Widget build(BuildContext context) {
+/*    return TabBarView(
+      controller:tabController,
+      children: <Widget>[
+        Container(child: Text("value 1"),),
+        Container(child: Text("value 2"),),
+        Container(child: Text("value 3"),),
+      ],
+    );*/
     return Container(
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
@@ -108,10 +192,19 @@ class ItemDemo extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           ClipRRect(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            child: Image.asset("images/item-img1.jpg"),
-          ),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          fullscreenDialog: true,
+                          builder: (context) => FullScreenImage()));
+                },
+                child:
+                    Hero(tag: 123, child: Image.asset("images/item-img1.jpg")),
+              )),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text.rich(
@@ -139,8 +232,8 @@ class ItemDemo extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Container(
-                      width: 30,
-                      height: 30,
+                      width: 40,
+                      height: 40,
                       child: CircleAvatar(
                         backgroundImage: AssetImage("images/avatar.jpg"),
                       ),
@@ -149,7 +242,10 @@ class ItemDemo extends StatelessWidget {
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
                         "黑火",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(
+                            color: Colors.blue[900],
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -159,10 +255,11 @@ class ItemDemo extends StatelessWidget {
                 margin: EdgeInsets.only(right: 10),
                 child: Row(
                   children: <Widget>[
-                    IconButton(
+                   /* IconButton(
                       icon: Icon(Icons.favorite),
                       onPressed: () {},
-                    ),
+                    ),*/
+                    FavIconAnim(),
                     Container(
                       child: Text("999"),
                     ),
@@ -172,6 +269,44 @@ class ItemDemo extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class FavIconAnim extends StatefulWidget {
+  @override
+  _FavIconAnimState createState() => _FavIconAnimState();
+}
+
+class _FavIconAnimState extends State<FavIconAnim>
+    with TickerProviderStateMixin {
+  bool ifLoved = false;
+  changeFav(){
+    setState(() {
+      ifLoved=!ifLoved;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    var unLoved = Icon(
+      Icons.favorite_border,
+      color: Colors.grey[500],
+      key: UniqueKey(),
+    );
+    var loved = Icon(
+      Icons.favorite,
+      color: Colors.red[500],
+      key: UniqueKey(),
+    );
+    var curIcon = ifLoved ? loved : unLoved;
+    return GestureDetector(
+      onTap: (){
+        changeFav();
+      },
+      child: AnimatedSwitcher(
+        child: curIcon,
+        duration: Duration(milliseconds: 300),
       ),
     );
   }
