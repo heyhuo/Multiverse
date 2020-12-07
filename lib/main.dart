@@ -32,6 +32,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    double rpx = screenWidth / 750;
     String src1 = "images/pic-1.png";
     String src2 = "images/pic-2.png";
     String src3 = "images/pic-3.png";
@@ -93,7 +94,8 @@ class Home extends StatelessWidget {
         left: 10,
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.5), borderRadius: BorderRadius.circular(30)),
+              color: Colors.black.withOpacity(0.5),
+              borderRadius: BorderRadius.circular(30)),
           child: BtmContent(),
         ),
       ),
@@ -107,7 +109,7 @@ class Home extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.5),
             borderRadius: BorderRadius.circular(20),
-           /* boxShadow: [
+            /* boxShadow: [
               BoxShadow(
                   blurRadius: 30, color: Colors.grey[600], offset: Offset(2, 2))
             ],*/
@@ -300,15 +302,16 @@ getBtmTextWidget(String content, bool ifSelected) {
 }
 
 class BtmContent extends StatelessWidget {
-  var txtStyle = TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold);
-  var subTxtStyle = TextStyle(color: Colors.white,fontSize: 16);
+  var txtStyle =
+      TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
+  var subTxtStyle = TextStyle(color: Colors.white, fontSize: 16);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       // height:,
 
-      padding: EdgeInsets.only(top:10),
+      padding: EdgeInsets.only(top: 10),
       child: Column(
         children: [
           ListTile(
